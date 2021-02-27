@@ -5,35 +5,35 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
 import com.example.mealist.R;
 import com.example.mealist.viewmodel.MealistViewModel;
 
-/**
- * Fragment which get the search of the user
- */
-public class SearchElementFragment extends Fragment {
+public class ShoppingListFragment extends Fragment {
 
     private MealistViewModel mealistViewModel;
-    private boolean hasAlreadyBeenInit = false;
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = initDataBinding(inflater, container);
-        mealistViewModel.configureRecyclerViewMeal(view.findViewById(R.id.recyclerView_searchFragment));
-        mealistViewModel.favoritesMeals.observe(getViewLifecycleOwner(), meals -> {
-            if(!hasAlreadyBeenInit){
-                mealistViewModel.updateUISearch(meals);
-                hasAlreadyBeenInit = true;
-            }}
-        );
-        return view;
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // Create the observer which updates the UI.
+        this.mealistViewModel.getAllDbIngredient().observe(this, ingredients -> {
+            this.mealistViewModel.recyclerViewListAdapter.submitList(ingredients);
+        });
     }
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = initDataBinding(inflater, container);
+        // Inflate the layout for this fragment
+        //View view = inflater.inflate(R.layout.fragment_list, container, false);
+        mealistViewModel.configureRecyclerViewIngredient(view.findViewById(R.id.recyclerview_FragmentList));
+
+        return view;
+    }
 
     /**
      * Init data binding to transfer data from {@link MealistViewModel}
@@ -42,7 +42,7 @@ public class SearchElementFragment extends Fragment {
      * @return view : View
      */
     private View initDataBinding(LayoutInflater inflater, ViewGroup container) {
-        com.example.mealist.databinding.FragmentSearchElementBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_search_element, container, false);
+        com.example.mealist.databinding.FragmentListBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_list, container, false);
         View view = binding.getRoot();
         binding.setViewModel(mealistViewModel);
         binding.setLifecycleOwner(this);
@@ -50,7 +50,7 @@ public class SearchElementFragment extends Fragment {
     }
 
     /**
-     * Set view model for dataBinding
+     * Set view model
      * @param mvm : {@link MealistViewModel}
      */
     public void setViewModel(MealistViewModel mvm){

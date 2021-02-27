@@ -11,11 +11,9 @@ import com.example.mealist.Model.Meal;
 import com.example.mealist.R;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Adapter of the SearchFragment's RecyclerView
- */
 public class RecyclerViewSearchAdapter extends RecyclerView.Adapter<RecyclerViewSearchHolder> {
     private final List<Meal> mealArrayList;
     private final CallBackRecyclerViewDetailsActivity callBack;

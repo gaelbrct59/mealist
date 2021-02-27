@@ -16,9 +16,6 @@ import com.example.mealist.viewmodel.MealistViewModel;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
-/**
- * Activity which manage both of the Fragments {@link ShoppingListFragment} & {@link SearchElementFragment}
- */
 public class MealistActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     private ViewPager2 viewPager2;
